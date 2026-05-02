@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #000435;
+  --color-accent: var(--color-amber-500);
+}
+
+/* Font */
+* {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* Canva-like striped background */
+.bg-striped-blue {
+  background-image: url('/my_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* 
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: #00043538;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000435;
+  border-radius: 999px;
+
+  border: 1.5px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d97706;
+} */
