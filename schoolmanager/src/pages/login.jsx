@@ -2,33 +2,38 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Lock, ArrowRight, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, isLoading, error } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
+
+    const { success } = await login({
+      identifier: formData.username,
+      password: formData.password,
+    });
+
+    if (success) {
       navigate('/');
-    }, 1500);
+    }
   };
 
   return (
     <div className="h-screen overflow-y-auto flex flex-col justify-between">
       {/* Main Content Area - Form Container instead of Apps */}
-      <div className="py-20 pb-0 flex justify-center flex-grow items-center px-6">
+      <div className="py-2  pb-0 flex justify-center flex-grow items-center px-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-sm backdrop-blur-md bg-white/30 py-20 px-10"
+          className="w-full backdrop-blur-md max-w-sm shadow-sm bg-white/10 py-20 px-10"
         >
           {/* Login Form content starts directly with inputs now */}
 
@@ -93,10 +98,16 @@ export default function Login() {
                </label>
             </div>
 
+            {error && (
+              <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-primary text-accent rounded-lg py-2  text-xs shadow-xl shadow-primary/10 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3"
+              className="w-full bg-primary text-accent rounded-lg py-2  text-xs shadow-xl shadow-primary/10 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -109,6 +120,33 @@ export default function Login() {
           </form>
         </motion.div>
       </div>
+
+      <footer className="w-full pt-2 pb-16 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col items-center">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-primary/20"></div>
+            <div className="flex items-center gap-2">
+              <span className="text-primary/40 text-[10px] uppercase tracking-[0.2em] font-bold">Managed by</span>
+              <span className="text-primary font-black tracking-tighter text-lg flex items-center">
+                EDU<span className="text-accent">POTO</span>
+              </span>
+            </div>
+            <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-primary/20"></div>
+          </div>
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-primary/60 text-[11px] font-medium tracking-wide uppercase">
+              Elevating Education through Technology
+            </p>
+            <div className="flex items-center gap-2 mt-4">
+              <span className="w-1 h-1 rounded-full bg-accent/40"></span>
+              <p className="text-primary/30 text-[9px] font-medium tracking-widest uppercase">
+                © {new Date().getFullYear()} Edupoto Global. All rights reserved.
+              </p>
+              <span className="w-1 h-1 rounded-full bg-accent/40"></span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

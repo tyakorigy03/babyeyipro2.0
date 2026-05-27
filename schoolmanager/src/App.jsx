@@ -3,6 +3,7 @@ import { Layout } from './components/layout';
 import './index.css';
 
 import { SetupProvider } from './pages/setup/SetupContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 import Home from './pages/index';
 import Apps from './pages/apps';
@@ -82,6 +83,7 @@ const setupNavItems = [
 function AppContent() {
   const location = useLocation();
   const p = location.pathname;
+  const { isAuthenticated, isLoading, user } = useAuth();
 
   const isSuperAdmin = p.startsWith('/superadmin');
   const isHome       = p === '/';
@@ -91,8 +93,24 @@ function AppContent() {
   const isAttendance = p.startsWith('/attendance');
   const isAcademic   = p.startsWith('/academic');
   const isPayroll    = p.startsWith('/payroll');
-  const isLogin     = p === '/login';
+  const isLogin      = p === '/login';
   const isSetup      = p.startsWith('/setup');
+
+  if (isLoading) {
+    return (
+      <div className="w-full min-h-screen flex items-center justify-center text-sm text-gray-600">
+        Checking authentication...
+      </div>
+    );
+  }
+
+  if (!isAuthenticated && !isLogin) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (isAuthenticated && isLogin) {
+    return <Navigate to="/" replace />;
+  }
 
   // SuperAdmin has its own self-contained layout — skip the school Layout
   if (isSuperAdmin) {
@@ -121,7 +139,7 @@ function AppContent() {
   else if (!isHome)     { navItems = [{ label: 'Home', path: '/' }]; }
 
   return (
-    <Layout userName={isLogin ? "" : "Alex Johnson"} isHome={isHome || isLogin} navItems={isLogin ? [] : navItems} title={isLogin ? "" : title}>
+    <Layout userName={isLogin ? "" : user?.name ?? "Alex Johnson"} isHome={isHome || isLogin} navItems={isLogin ? [] : navItems} title={isLogin ? "" : title}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -167,9 +185,11 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <SetupProvider>
-        <AppContent />
-      </SetupProvider>
+      <AuthProvider>
+        <SetupProvider>
+          <AppContent />
+        </SetupProvider>
+      </AuthProvider>
     </Router>
   );
 }
