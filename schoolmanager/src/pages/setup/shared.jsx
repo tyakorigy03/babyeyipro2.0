@@ -78,7 +78,7 @@ export function SelectInput({ children, ...props }) {
 export function BtnPrimary({ children, onClick, disabled, loading, color = PRIMARY }) {
   return (
     <button onClick={onClick} disabled={disabled || loading}
-      className="hover:opacity-90 disabled:opacity-50 text-white px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wide shadow-md transition-all flex items-center gap-2"
+      className="hover:opacity-90 bg-primary  disabled:opacity-50 text-white px-5 py-2 rounded-lg font-bold text-xs uppercase tracking-wide shadow-md transition-all flex items-center gap-2"
       style={{ background: color }}>
       {loading && <Loader2 size={13} className="animate-spin" />}
       {children}

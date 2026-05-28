@@ -32,8 +32,7 @@ const foundationService = {
   async getLevels() {
     try {
       const response = await authFetch('/levels');
-      // Map id to level_id for frontend compatibility
-      return (response.data || []).map(l => ({ ...l, level_id: l.id }));
+      return response.data || [];
     } catch (error) {
       console.error('Failed to fetch levels:', error);
       return [];
@@ -47,8 +46,7 @@ const foundationService = {
     try {
       const url = levelId ? `/grades?level_id=${levelId}` : '/grades';
       const response = await authFetch(url);
-      // Map id to grade_id and ensure level_id is present
-      return (response.data || []).map(g => ({ ...g, grade_id: g.id }));
+      return response.data || [];
     } catch (error) {
       console.error('Failed to fetch grades:', error);
       return [];
@@ -109,11 +107,9 @@ const foundationService = {
   async getSections(gradeId = null) {
     try {
       const response = await authFetch('/classes');
-      return (response.data || []).map(c => ({ 
-        ...c, 
-        section_id: c.id,
-        grade_id: c.grade_id // Note: Class model has academic_group_id, but we'll try to find grade_id if mapped
-      }));
+      // Raw service: return classes as backend provides them.
+      // If callers want grade-level linking, do it in the UI layer.
+      return response.data || [];
     } catch (error) {
       console.error('Failed to fetch sections:', error);
       return [];
@@ -485,31 +481,8 @@ const foundationService = {
     });
   },
 
-  /**
-   * Fetches levels from the database
-   */
-  async getLevels() {
-    try {
-      const response = await authFetch('/levels');
-      return response.data || [];
-    } catch (error) {
-      console.error('Failed to fetch levels:', error);
-      return [];
-    }
-  },
-
-  /**
-   * Fetches locations/rooms from the database
-   */
-  async getLocations() {
-    try {
-      const response = await authFetch('/locations');
-      return response.data || [];
-    } catch (error) {
-      console.error('Failed to fetch locations:', error);
-      return [];
-    }
-  },
+  // NOTE: getLevels/getGrades are already defined earlier with id-to-*_id mapping.
+  // Keep a single canonical implementation to avoid accidental overrides.
 
   /**
    * Creates a new class
@@ -541,51 +514,9 @@ const foundationService = {
     });
   },
 
-  /**
-   * Fetches grades from the database
-   */
-  async getGrades() {
-    try {
-      const response = await authFetch('/grades');
-      return response.data || [];
-    } catch (error) {
-      console.error('Failed to fetch grades:', error);
-      return [];
-    }
-  },
+  // NOTE: createLevel/createGrade are already defined earlier. Avoid duplicates here.
 
-  /**
-   * Creates a new grade
-   */
-  async createGrade(data) {
-    return authFetch('/grades', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-  },
-
-  /**
-   * Creates a new level
-   */
-  async createLevel(data) {
-    return authFetch('/levels', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-  },
-
-  /**
-   * Fetches academic groups from the database
-   */
-  async getAcademicGroups() {
-    try {
-      const response = await authFetch('/academicGroups');
-      return response.data || [];
-    } catch (error) {
-      console.error('Failed to fetch academicGroups:', error);
-      return [];
-    }
-  },
+  // NOTE: getAcademicGroups is already defined earlier. Avoid duplicates here.
 
   /**
    * Creates a new academic group

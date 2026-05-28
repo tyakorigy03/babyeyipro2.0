@@ -333,34 +333,9 @@ export default function SetupFoundation() {
   ]);
 
   // ── Normalized school structure state (mirrors DB schema) ──────────────
-  const [levels, setLevels] = useState([
-    { level_id: 1, name: 'Nursery', code: 'NUR', display_order: 1, promotion_rule: 'auto' },
-    { level_id: 2, name: 'Primary', code: 'PRI', display_order: 2, promotion_rule: 'conditional' },
-    { level_id: 3, name: 'O Level (S1-S3)', code: 'OLE', display_order: 3, promotion_rule: 'conditional' },
-    { level_id: 4, name: 'A Level (S4-S6)', code: 'ALE', display_order: 4, promotion_rule: 'strict' },
-    { level_id: 5, name: 'TVET', code: 'TVT', display_order: 5, promotion_rule: 'competency' },
-  ]);
-
-  const [grades, setGrades] = useState([
-    { grade_id: 1, level_id: 1, grade_number: 1, name: 'Baby Class', code: 'NUR-BC', default_capacity: 30 },
-    { grade_id: 2, level_id: 1, grade_number: 2, name: 'Middle Class', code: 'NUR-MC', default_capacity: 32 },
-    { grade_id: 3, level_id: 1, grade_number: 3, name: 'Top Class', code: 'NUR-TC', default_capacity: 35 },
-    { grade_id: 4, level_id: 2, grade_number: 1, name: 'P1', code: 'P1', default_capacity: 45 },
-    { grade_id: 5, level_id: 2, grade_number: 2, name: 'P2', code: 'P2', default_capacity: 45 },
-    { grade_id: 6, level_id: 2, grade_number: 3, name: 'P3', code: 'P3', default_capacity: 45 },
-    { grade_id: 7, level_id: 2, grade_number: 4, name: 'P4', code: 'P4', default_capacity: 45 },
-    { grade_id: 8, level_id: 2, grade_number: 5, name: 'P5', code: 'P5', default_capacity: 45 },
-    { grade_id: 9, level_id: 2, grade_number: 6, name: 'P6', code: 'P6', default_capacity: 45 },
-    { grade_id: 10, level_id: 3, grade_number: 1, name: 'S1', code: 'S1', default_capacity: 48 },
-    { grade_id: 11, level_id: 3, grade_number: 2, name: 'S2', code: 'S2', default_capacity: 46 },
-    { grade_id: 12, level_id: 3, grade_number: 3, name: 'S3', code: 'S3', default_capacity: 44 },
-    { grade_id: 13, level_id: 4, grade_number: 1, name: 'S4', code: 'S4', default_capacity: 40 },
-    { grade_id: 14, level_id: 4, grade_number: 2, name: 'S5', code: 'S5', default_capacity: 38 },
-    { grade_id: 15, level_id: 4, grade_number: 3, name: 'S6', code: 'S6', default_capacity: 36 },
-    { grade_id: 16, level_id: 5, grade_number: 1, name: 'Year 1', code: 'Y1', default_capacity: 35 },
-    { grade_id: 17, level_id: 5, grade_number: 2, name: 'Year 2', code: 'Y2', default_capacity: 33 },
-    { grade_id: 18, level_id: 5, grade_number: 3, name: 'Year 3', code: 'Y3', default_capacity: 30 },
-  ]);
+  // Load Levels/Grades/Classes from API (inspired by MUI version)
+  const [levels, setLevels] = useState([]);
+  const [grades, setGrades] = useState([]);
 
   const [combinations, setCombinations] = useState([
     { combination_id: 1, level_id: 4, name: 'PCM', code: 'PCM', description: 'Physics, Chemistry, Mathematics' },
@@ -374,33 +349,7 @@ export default function SetupFoundation() {
     { combination_id: 9, level_id: 5, name: 'Electricity', code: 'ELE', description: 'Electrical Installation' },
   ]);
 
-  const [sections, setSections] = useState([
-    { section_id: 1, grade_id: 1, stream: null, combination_id: null, custom_name: null, capacity: 30, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 2, grade_id: 2, stream: null, combination_id: null, custom_name: null, capacity: 32, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 3, grade_id: 3, stream: null, combination_id: null, custom_name: null, capacity: 35, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 4, grade_id: 4, stream: 'A', combination_id: null, custom_name: null, capacity: 45, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 5, grade_id: 4, stream: 'B', combination_id: null, custom_name: null, capacity: 45, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 6, grade_id: 4, stream: 'C', combination_id: null, custom_name: null, capacity: 45, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 7, grade_id: 5, stream: 'A', combination_id: null, custom_name: null, capacity: 45, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 8, grade_id: 5, stream: 'B', combination_id: null, custom_name: null, capacity: 45, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 9, grade_id: 10, stream: 'A', combination_id: null, custom_name: null, capacity: 48, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 10, grade_id: 10, stream: 'B', combination_id: null, custom_name: null, capacity: 48, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 11, grade_id: 10, stream: 'C', combination_id: null, custom_name: null, capacity: 48, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 12, grade_id: 10, stream: 'D', combination_id: null, custom_name: null, capacity: 48, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 13, grade_id: 13, stream: null, combination_id: 1, custom_name: null, capacity: 40, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 14, grade_id: 13, stream: null, combination_id: 2, custom_name: null, capacity: 40, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 15, grade_id: 13, stream: null, combination_id: 3, custom_name: null, capacity: 40, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 16, grade_id: 14, stream: null, combination_id: 1, custom_name: null, capacity: 38, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 17, grade_id: 14, stream: null, combination_id: 2, custom_name: null, capacity: 38, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 18, grade_id: 14, stream: null, combination_id: 3, custom_name: null, capacity: 38, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 19, grade_id: 15, stream: null, combination_id: 1, custom_name: null, capacity: 36, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 20, grade_id: 15, stream: null, combination_id: 2, custom_name: null, capacity: 36, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 21, grade_id: 15, stream: null, combination_id: 3, custom_name: null, capacity: 36, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 22, grade_id: 16, stream: null, combination_id: 5, custom_name: null, capacity: 35, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 23, grade_id: 16, stream: null, combination_id: 6, custom_name: null, capacity: 35, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 24, grade_id: 17, stream: null, combination_id: 5, custom_name: null, capacity: 33, teacher_id: null, academic_year: '2024-2025', is_active: true },
-    { section_id: 25, grade_id: 17, stream: null, combination_id: 8, custom_name: null, capacity: 33, teacher_id: null, academic_year: '2024-2025', is_active: true },
-  ]);
+  const [sections, setSections] = useState([]);
 
   const activeYear = academicYears.find(y => y.status === 'Active');
   const tabs = [
@@ -696,6 +645,70 @@ export default function SetupFoundation() {
         <div className="space-y-5">
           <FieldRow label="Track Name" required><TextInput placeholder="e.g. ICT" /></FieldRow>
           <FieldRow label="Code" required><TextInput placeholder="e.g. TVT-ICT" /></FieldRow>
+        </div>
+      </ModalShell>
+    </ModalBackdrop>
+  );
+
+  const BlockModal = () => (
+    <ModalBackdrop onClose={() => { setShowBlockModal(false); setSelectedBlock(null); }}>
+      <ModalShell 
+        title={selectedBlock ? "Edit Building / Block" : "Add Building / Block"} 
+        subtitle="Infrastructure Setup · Locations" 
+        onClose={() => { setShowBlockModal(false); setSelectedBlock(null); }}
+        footer={
+          <>
+            <BtnGhost onClick={() => { setShowBlockModal(false); setSelectedBlock(null); }}>Cancel</BtnGhost>
+            <BtnPrimary onClick={handleSaveBlock}>
+              {selectedBlock ? "Save Changes" : "Create Block"}
+            </BtnPrimary>
+          </>
+        }
+      >
+        <div className="space-y-5">
+          <FieldRow label="Block / Building Name" required>
+            <TextInput 
+              placeholder="e.g. Main Hall, Block A, Science Lab Wing" 
+              value={blockForm.name} 
+              onChange={e => setBlockForm({ name: e.target.value })}
+            />
+          </FieldRow>
+        </div>
+      </ModalShell>
+    </ModalBackdrop>
+  );
+
+  const RoomModal = () => (
+    <ModalBackdrop onClose={() => { setShowRoomModal(false); setSelectedRoom(null); }}>
+      <ModalShell 
+        title={selectedRoom ? "Edit Room / Location" : `Add Room to ${selectedBlockForDetail?.name}`} 
+        subtitle="Physical Space · Capacity Configuration" 
+        onClose={() => { setShowRoomModal(false); setSelectedRoom(null); }}
+        footer={
+          <>
+            <BtnGhost onClick={() => { setShowRoomModal(false); setSelectedRoom(null); }}>Cancel</BtnGhost>
+            <BtnPrimary onClick={handleSaveRoom}>
+              {selectedRoom ? "Save Changes" : "Add Room"}
+            </BtnPrimary>
+          </>
+        }
+      >
+        <div className="space-y-5">
+          <FieldRow label="Room / Zone Name" required>
+            <TextInput 
+              placeholder="e.g. Room 101, Chemistry Lab, Dining Hall" 
+              value={roomForm.name} 
+              onChange={e => setRoomForm({ ...roomForm, name: e.target.value })}
+            />
+          </FieldRow>
+          <FieldRow label="Student Capacity" required>
+            <TextInput 
+              type="number"
+              placeholder="e.g. 40" 
+              value={roomForm.capacity} 
+              onChange={e => setRoomForm({ ...roomForm, capacity: e.target.value })}
+            />
+          </FieldRow>
         </div>
       </ModalShell>
     </ModalBackdrop>
@@ -1102,6 +1115,16 @@ export default function SetupFoundation() {
   const [selectedGrade, setSelectedGrade] = useState(null);
   const [locations,setLocations] = useState([]);
   const [rooms,setRooms] = useState([]);
+  const [academicGroups, setAcademicGroups] = useState([]);
+
+  // New location/block & room modals and management states
+  const [showBlockModal, setShowBlockModal] = useState(false);
+  const [showRoomModal, setShowRoomModal] = useState(false);
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [blockForm, setBlockForm] = useState({ name: '' });
+  const [roomForm, setRoomForm] = useState({ name: '', capacity: 40 });
+  const [selectedRoomForDetail, setSelectedRoomForDetail] = useState(null);
 
   const fetchFoundationData = async () => {
     try {
@@ -1110,7 +1133,8 @@ export default function SetupFoundation() {
         yearsData, 
         levelsData, 
         gradesData, 
-        sectionsData, 
+        sectionsData,
+        academicGroupsData,
         blocksData, 
         roomsData, 
         routinesData, 
@@ -1123,6 +1147,7 @@ export default function SetupFoundation() {
         api.foundation.getLevels(),
         api.foundation.getGrades(),
         api.foundation.getSections(),
+        api.foundation.getAcademicGroups(),
         api.foundation.getBlocks(),
         api.foundation.getRooms(),
         api.foundation.getRoutines(),
@@ -1142,9 +1167,10 @@ export default function SetupFoundation() {
        console.log('routes',routesData);
      
       // setAcademicYears(yearsData);
-      // setLevels(levelsData);
-      // setGrades(gradesData);
-      // setSections(sectionsData);
+      setLevels(levelsData || []);
+      setGrades(gradesData || []);
+      setSections(sectionsData || []);
+      setAcademicGroups(academicGroupsData || []);
       setLocations(blocksData);
       setRooms(roomsData);
       // setRoutines(routinesData);
@@ -1163,25 +1189,127 @@ useEffect(() => {
     fetchFoundationData();
   }, []);
 
+  useEffect(() => {
+    if (!selectedLevelForDetail && levels.length > 0) {
+      setSelectedLevelForDetail(levels[0]);
+    }
+  }, [levels, selectedLevelForDetail]);
+
+  const handleSaveBlock = async () => {
+    try {
+      if (selectedBlock) {
+        // Edit mode
+        await api.foundation.updateBlock(selectedBlock.id, { name: blockForm.name });
+        setLocations(prev => prev.map(b => b.id === selectedBlock.id ? { ...b, name: blockForm.name } : b));
+        if (selectedBlockForDetail?.id === selectedBlock.id && !('block_id' in selectedBlockForDetail)) {
+          setSelectedBlockForDetail(prev => ({ ...prev, name: blockForm.name }));
+        }
+      } else {
+        // Create mode
+        const res = await api.foundation.createBlock({ name: blockForm.name });
+        if (res.data) {
+          setLocations(prev => [...prev, res.data]);
+        } else {
+          await fetchFoundationData();
+        }
+      }
+      setShowBlockModal(false);
+      setSelectedBlock(null);
+      setBlockForm({ name: '' });
+    } catch (error) {
+      console.error("Failed to save block:", error);
+    }
+  };
+
+  const handleDeleteBlock = async (blockId) => {
+    if (!window.confirm("Are you sure you want to delete this Building/Block? All rooms inside it will be orphaned.")) return;
+    try {
+      await api.foundation.deleteBlock(blockId);
+      setLocations(prev => prev.filter(b => b.id !== blockId));
+      if (selectedBlockForDetail?.id === blockId && !('block_id' in selectedBlockForDetail)) {
+        setSelectedBlockForDetail(null);
+      }
+    } catch (error) {
+      console.error("Failed to delete block:", error);
+    }
+  };
+
+  const handleSaveRoom = async () => {
+    try {
+      const isIndependentSelected = selectedBlockForDetail && (selectedBlockForDetail.block_id === null || selectedBlockForDetail.blockId === null || !('block_id' in selectedBlockForDetail));
+      const targetBlockId = isIndependentSelected ? null : (selectedBlockForDetail?.id || null);
+      
+      const payload = {
+        name: roomForm.name,
+        capacity: parseInt(roomForm.capacity, 10),
+        block_id: selectedRoom ? selectedRoom.block_id : targetBlockId
+      };
+      
+      if (selectedRoom) {
+        // Edit mode
+        await api.foundation.updateRoom(selectedRoom.id, payload);
+        setRooms(prev => prev.map(r => r.id === selectedRoom.id ? { ...r, name: roomForm.name, capacity: parseInt(roomForm.capacity, 10) } : r));
+        if (selectedBlockForDetail?.id === selectedRoom.id && (selectedBlockForDetail.block_id === null || selectedBlockForDetail.blockId === null || !('block_id' in selectedBlockForDetail))) {
+          setSelectedBlockForDetail(prev => ({ ...prev, name: roomForm.name, capacity: parseInt(roomForm.capacity, 10) }));
+        }
+      } else {
+        // Create mode
+        const res = await api.foundation.createRoom(payload);
+        if (res.data) {
+          setRooms(prev => [...prev, { ...res.data, blockId: res.data.block_id }]);
+        } else {
+          await fetchFoundationData();
+        }
+      }
+      setShowRoomModal(false);
+      setSelectedRoom(null);
+      setRoomForm({ name: '', capacity: 40 });
+    } catch (error) {
+      console.error("Failed to save room:", error);
+    }
+  };
+
+  const handleDeleteRoom = async (roomId) => {
+    if (!window.confirm("Are you sure you want to delete this room?")) return;
+    try {
+      await api.foundation.deleteRoom(roomId);
+      setRooms(prev => prev.filter(r => r.id !== roomId));
+      if (selectedBlockForDetail?.id === roomId && (selectedBlockForDetail.block_id === null || selectedBlockForDetail.blockId === null || !('block_id' in selectedBlockForDetail))) {
+        setSelectedBlockForDetail(null);
+      }
+    } catch (error) {
+      console.error("Failed to delete room:", error);
+    }
+  };
+
 
 
 
 
   // ==================== SINGLE VERSION - NORMALIZED (FIXED) ====================
 const renderLevelsClassesTree = () => {
+  const academicGroupToGradeId = new Map(
+    (academicGroups || []).map(g => [g.id, g.grade_id ?? g.gradeId ?? g.grade?.id ?? null])
+  );
+
+  const sectionGradeId = (s) => {
+    // Backend links classes via academic_group_id; resolve to grade id in the UI layer
+    return s.grade_id ?? s.gradeId ?? academicGroupToGradeId.get(s.academic_group_id) ?? null;
+  };
+
   const levelGrades = selectedLevelForDetail
-    ? grades.filter(g => g.level_id === selectedLevelForDetail.level_id)
+    ? grades.filter(g => g.level_id === selectedLevelForDetail.id)
     : [];
   const levelCombos = selectedLevelForDetail
-    ? combinations.filter(c => c.level_id === selectedLevelForDetail.level_id)
+    ? combinations.filter(c => c.level_id === selectedLevelForDetail.id)
     : [];
   const gradeClasses = selectedGrade
-    ? sections.filter(s => s.grade_id === selectedGrade.grade_id)
+    ? sections.filter(s => sectionGradeId(s) === selectedGrade.id)
     : [];
 
   const classDisplayName = (s) => {
     if (s.custom_name) return s.custom_name;
-    const grade = grades.find(g => g.grade_id === s.grade_id);
+    const grade = grades.find(g => g.id === sectionGradeId(s));
     const combo = combinations.find(c => c.combination_id === s.combination_id);
     const gradeName = grade?.name ?? '';
     const stream = s.stream ? ` ${s.stream}` : '';
@@ -1191,13 +1319,13 @@ const renderLevelsClassesTree = () => {
 
   // Calculate total enrolled for a grade (mock - replace with real data)
   const getGradeTotalEnrolled = (gradeId) => {
-    const gradeClassesList = sections.filter(s => s.grade_id === gradeId);
+    const gradeClassesList = sections.filter(s => sectionGradeId(s) === gradeId);
     return gradeClassesList.reduce((sum, s) => sum + Math.floor(Math.random() * s.capacity), 0);
   };
 
   // Calculate total capacity for a grade (sum of all its classes' capacities)
   const getGradeTotalCapacity = (gradeId) => {
-    const gradeClassesList = sections.filter(s => s.grade_id === gradeId);
+    const gradeClassesList = sections.filter(s => sectionGradeId(s) === gradeId);
     return gradeClassesList.reduce((sum, s) => sum + s.capacity, 0);
   };
 
@@ -1213,10 +1341,10 @@ const renderLevelsClassesTree = () => {
         </div>
         <div className="flex-1 overflow-auto p-2 space-y-1">
           {levels.map(level => {
-            const gradeCount = grades.filter(g => g.level_id === level.level_id).length;
-            const isActive = selectedLevelForDetail?.level_id === level.level_id;
+            const gradeCount = grades.filter(g => g.level_id === level.id).length;
+            const isActive = selectedLevelForDetail?.id === level.id;
             return (
-              <button key={level.level_id} onClick={() => { setSelectedLevelForDetail(level); setSelectedGrade(null); }}
+              <button key={level.id} onClick={() => { setSelectedLevelForDetail(level); setSelectedGrade(null); }}
                 className={`w-full text-left p-3 rounded-lg transition-all flex items-center justify-between ${isActive ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'hover:bg-slate-50 text-slate-600'}`}
               >
                 <div className="flex items-center gap-3">
@@ -1251,13 +1379,13 @@ const renderLevelsClassesTree = () => {
                     />
                     <span className="text-[9px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">{selectedLevelForDetail.code}</span>
                     {levelCombos.length > 0 && (
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded border font-bold ${selectedLevelForDetail.level_id === 5 ? 'bg-teal-50 text-teal-600 border-teal-100' : 'bg-purple-50 text-purple-600 border-purple-100'}`}>
-                        {selectedLevelForDetail.level_id === 5 ? 'TVET Trade' : 'Combinations'}
+                      <span className="text-[9px] px-1.5 py-0.5 rounded border font-bold bg-purple-50 text-purple-600 border-purple-100">
+                        Combinations
                       </span>
                     )}
                   </div>
                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">
-                    {levelGrades.length} Grades · Promotion: <span className="text-primary">{selectedLevelForDetail.promotion_rule}</span>
+                    {levelGrades.length} Grades 
                   </p>
                 </div>
 
@@ -1302,8 +1430,8 @@ const renderLevelsClassesTree = () => {
                 <div className="border-b border-slate-100 px-6 py-3 bg-white shrink-0">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                      {selectedLevelForDetail.level_id === 5 ? <Briefcase size={11} /> : <Layers size={11} />}
-                      {selectedLevelForDetail.level_id === 5 ? 'TVET Trades' : 'Subject Combinations'}
+                      <Layers size={11} />
+                      Subject Combinations
                     </h4>
                     <button onClick={() => { setSelectedLevel(selectedLevelForDetail); setShowCombinationModal(true); }}
                       className="text-[10px] font-bold text-primary flex items-center gap-1 hover:underline">
@@ -1312,9 +1440,9 @@ const renderLevelsClassesTree = () => {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {levelCombos.map(c => (
-                      <div key={c.combination_id} className={`px-2.5 py-1.5 rounded-lg border flex items-center gap-2 ${selectedLevelForDetail.level_id === 5 ? 'bg-teal-50 border-teal-100' : 'bg-purple-50 border-purple-100'}`}>
-                        <span className={`text-xs font-black ${selectedLevelForDetail.level_id === 5 ? 'text-teal-700' : 'text-purple-700'}`}>{c.name}</span>
-                        <span className={`text-[10px] ${selectedLevelForDetail.level_id === 5 ? 'text-teal-400' : 'text-purple-400'}`}>{c.description}</span>
+                      <div key={c.combination_id} className="px-2.5 py-1.5 rounded-lg border flex items-center gap-2 bg-purple-50 border-purple-100">
+                        <span className="text-xs font-black text-purple-700">{c.name}</span>
+                        <span className="text-[10px] text-purple-400">{c.description}</span>
                       </div>
                     ))}
                   </div>
@@ -1334,15 +1462,15 @@ const renderLevelsClassesTree = () => {
                   </thead>
                   <tbody className="text-[11px]">
                     {levelGrades.map((grade, index) => {
-                      const gradeClassesCount = sections.filter(s => s.grade_id === grade.grade_id).length;
-                      const totalCapacity = getGradeTotalCapacity(grade.grade_id);
-                      const totalEnrolled = getGradeTotalEnrolled(grade.grade_id);
-                      const isSelected = selectedGrade?.grade_id === grade.grade_id;
-                      const currentClasses = sections.filter(s => s.grade_id === grade.grade_id);
+                      const gradeClassesCount = sections.filter(s => sectionGradeId(s) === grade.id).length;
+                      const totalCapacity = getGradeTotalCapacity(grade.id);
+                      const totalEnrolled = getGradeTotalEnrolled(grade.id);
+                      const isSelected = selectedGrade?.id === grade.id;
+                      const currentClasses = sections.filter(s => sectionGradeId(s) === grade.id);
                       const enrollmentPercentage = totalCapacity > 0 ? (totalEnrolled / totalCapacity) * 100 : 0;
                       
                       return (
-                        <Fragment key={grade.grade_id}>
+                        <Fragment key={grade.id}>
                           <tr
                             onClick={() => setSelectedGrade(isSelected ? null : grade)}
                             className={`border-b border-slate-200 cursor-pointer transition-colors ${isSelected ? 'bg-primary/5 border-l-2 border-l-primary' : index % 2 !== 0 ? 'bg-slate-50/50 hover:bg-primary/5' : 'bg-white hover:bg-primary/5'}`}
@@ -1413,7 +1541,7 @@ const renderLevelsClassesTree = () => {
                                           const percentage = (enrolledCount / s.capacity) * 100;
                                           
                                           return (
-                                            <tr key={s.section_id} className="hover:bg-white/50 transition-colors">
+                                            <tr key={s.id} className="hover:bg-white/50 transition-colors">
                                               <td className="px-3 py-2 font-medium text-slate-700">
                                                 <div className="flex items-center gap-2">
                                                   <span>{classDisplayName(s)}</span>
@@ -1511,27 +1639,27 @@ const renderLevelsClassesTree = () => {
   );
 };
 const renderLocationsTree = ({blocks, rooms}) => {
-  blocks = [...blocks ,...rooms.filter(r=>r.block_id===null)];
-
-
-
-  const blockRooms = selectedBlockForDetail
-    ? rooms.filter(r => r.block_id === selectedBlockForDetail.id)
-    : [];
-
-
+  // Filter block list: actual blocks plus independent rooms (rooms without a block_id)
+  const allBlocks = [...blocks, ...rooms.filter(r => r.block_id === null || r.blockId === null)];
+   console.log('this are rooms in the foundation : ',rooms);
+   
+  const blockRooms = rooms.filter(r => r.block_id === selectedBlockForDetail?.id || ( selectedBlockForDetail?.block_id === null & r.id === selectedBlockForDetail?.id ));
 
   return (
-    <div className="flex gap-0 h-[680px] animate-in fade-in duration-500">
+    <div className="flex gap-0 min-h-[400px] animate-in fade-in duration-500">
+      {/* LEFT: Buildings & Blocks list */}
       <div className="w-64 bg-white rounded-l-lg border border-slate-200 shadow-sm flex flex-col overflow-hidden border-r-0">
         <div className="px-4 py-3 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
           <span className="font-bold text-[10px] text-slate-400 uppercase tracking-widest">Buildings & Blocks</span>
-          <button onClick={() => setShowLevelModal(true)} className="flex items-center gap-1 text-[10px] font-bold text-primary hover:bg-primary/10 px-2 py-1 rounded transition-all">
+          <button 
+            onClick={() => { setSelectedBlock(null); setBlockForm({ name: '' }); setShowBlockModal(true); }} 
+            className="flex items-center gap-1 text-[10px] font-bold text-primary hover:bg-primary/10 px-2 py-1 rounded transition-all"
+          >
             <Plus size={12} /> Add
           </button>
         </div>
         <div className="flex-1 overflow-auto ">
-          {blocks.map(block => {
+          {allBlocks.map(block => {
             const isActive = selectedBlockForDetail?.id === block.id;
             return (
               <button key={block.id} onClick={() => { setSelectedBlockForDetail(block); setSelectedLevelForDetail(null); }}
@@ -1554,25 +1682,19 @@ const renderLocationsTree = ({blocks, rooms}) => {
       <div className="flex-1 flex flex-col overflow-hidden rounded-r-lg border border-slate-200 shadow-sm bg-white">
         {selectedBlockForDetail ? (
           <>
-            {/* Level Header */}
+            {/* Block Header */}
             <div className="px-6 py-3 border-b border-slate-100 bg-slate-50/30 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3 relative">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-base font-black text-slate-800 uppercase tracking-tight">{selectedLevelForDetail.name}</h3>
+                    <h3 className="text-base font-black text-slate-800 uppercase tracking-tight">{selectedBlockForDetail.name}</h3>
                     <Settings 
                       className={`w-4 h-4 cursor-pointer transition-colors ${showLevelSettings ? 'text-primary' : 'text-slate-400 hover:text-slate-600'}`} 
                       onClick={() => setShowLevelSettings(!showLevelSettings)} 
                     />
-                    <span className="text-[9px] font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200">{selectedLevelForDetail.code}</span>
-                    {levelCombos.length > 0 && (
-                      <span className={`text-[9px] px-1.5 py-0.5 rounded border font-bold ${selectedLevelForDetail.level_id === 5 ? 'bg-teal-50 text-teal-600 border-teal-100' : 'bg-purple-50 text-purple-600 border-purple-100'}`}>
-                        {selectedLevelForDetail.level_id === 5 ? 'TVET Trade' : 'Combinations'}
-                      </span>
-                    )}
                   </div>
                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">
-                    {levelGrades.length} Grades · Promotion: <span className="text-primary">{selectedLevelForDetail.promotion_rule}</span>
+                    {blockRooms.length} Rooms
                   </p>
                 </div>
 
@@ -1606,34 +1728,64 @@ const renderLocationsTree = ({blocks, rooms}) => {
                 </AnimatePresence>
               </div>
               <div className="flex items-center gap-2">
-                <button className="p-1.5 text-slate-400 hover:text-primary transition-colors"><Edit size={14} /></button>
-                <button className="p-1.5 text-slate-400 hover:text-red-600 transition-colors"><Trash2 size={14} /></button>
+                <button 
+                  onClick={() => {
+                    const isIndependentRoom = selectedBlockForDetail && (selectedBlockForDetail.block_id === null || selectedBlockForDetail.blockId === null || !('block_id' in selectedBlockForDetail));
+                    if (isIndependentRoom) {
+                      setSelectedRoom(selectedBlockForDetail);
+                      setRoomForm({ name: selectedBlockForDetail.name, capacity: selectedBlockForDetail.capacity });
+                      setShowRoomModal(true);
+                    } else {
+                      setSelectedBlock(selectedBlockForDetail);
+                      setBlockForm({ name: selectedBlockForDetail.name });
+                      setShowBlockModal(true);
+                    }
+                  }} 
+                  className="p-1.5 text-slate-400 hover:text-primary transition-colors"
+                >
+                  <Edit size={14} />
+                </button>
+                <button 
+                  onClick={() => {
+                    const isIndependentRoom = selectedBlockForDetail && (selectedBlockForDetail.block_id === null || selectedBlockForDetail.blockId === null || !('block_id' in selectedBlockForDetail));
+                    if (isIndependentRoom) {
+                      handleDeleteRoom(selectedBlockForDetail.id);
+                    } else {
+                      handleDeleteBlock(selectedBlockForDetail.id);
+                    }
+                  }} 
+                  className="p-1.5 text-slate-400 hover:text-red-600 transition-colors"
+                >
+                  <Trash2 size={14} />
+                </button>
               </div>
             </div>
 
             <div className="flex-1 overflow-auto flex flex-col">
-              {/* rooms Table */}
+              {/* Rooms Table */}
               <div className="flex-1 overflow-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="border-b border-slate-200 text-[11px] font-bold bg-white sticky top-0 z-10 text-slate-700">
-                      <th className="px-4 py-2 border-r border-slate-100 uppercase tracking-wider">Grade</th>
-                      <th className="px-4 py-2 border-r border-slate-100 uppercase tracking-wider text-center">Enrolled / Capacity</th>
-                      <th className="px-4 py-2 border-r border-slate-100 uppercase tracking-wider text-center">Classes</th>
+                      <th className="px-4 py-2 border-r border-slate-100 uppercase tracking-wider">Room / Space</th>
+                      <th className="px-4 py-2 border-r border-slate-100 uppercase tracking-wider text-center">Student Capacity</th>
+                      <th className="px-4 py-2 border-r border-slate-100 uppercase tracking-wider text-center">Status</th>
                       <th className="px-4 py-2 uppercase tracking-wider text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="text-[11px]">
                     {blockRooms.map((room, index) => {
+                      const isSelected = selectedRoomForDetail?.id === room.id;
                       return (
                         <Fragment key={room.id}>
                           <tr
+                            onClick={() => setSelectedRoomForDetail(isSelected ? null : room)}
                             className={`border-b border-slate-200 cursor-pointer transition-colors ${isSelected ? 'bg-primary/5 border-l-2 border-l-primary' : index % 2 !== 0 ? 'bg-slate-50/50 hover:bg-primary/5' : 'bg-white hover:bg-primary/5'}`}
                           >
                             <td className="px-4 py-2 border-r border-slate-100/50">
                               <div className="flex items-center gap-2">
                                 <div className="w-6 h-6 rounded bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary border border-primary/20">
-                                  {room.name.charAt(0)}
+                                  <DoorOpen size={12} />
                                 </div>
                                 <span className="font-semibold text-slate-700">{room.name}</span>
                               </div>
@@ -1641,45 +1793,67 @@ const renderLocationsTree = ({blocks, rooms}) => {
                             <td className="px-4 py-2 text-center border-r border-slate-100/50">
                               <div className="flex flex-col items-center gap-1">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-mono font-bold text-slate-700">{room.capacity}</span>
+                                  <span className="font-mono font-bold text-slate-700">{room.capacity || 0} Students</span>
                                 </div>
                               </div>
                             </td>
                             <td className="px-4 py-2 text-center border-r border-slate-100/50">
-                              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${gradeClassesCount > 0 ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-slate-400'}`}>
-                                {gradeClassesCount} classes
+                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                                Active Space
                               </span>
                             </td>
                             <td className="px-4 py-2 text-right">
-                              <div className="flex justify-end gap-1">
-                                <button onClick={e => e.stopPropagation()} className="p-1 text-slate-400 hover:text-primary transition-all"><Edit size={13} /></button>
-                                <button onClick={e => e.stopPropagation()} className="p-1 text-slate-400 hover:text-red-600 transition-all"><Trash2 size={13} /></button>
+                              <div className="flex justify-end gap-1" onClick={e => e.stopPropagation()}>
+                                <button 
+                                  onClick={() => {
+                                    setSelectedRoom(room);
+                                    setRoomForm({ name: room.name, capacity: room.capacity });
+                                    setShowRoomModal(true);
+                                  }} 
+                                  className="p-1 text-slate-400 hover:text-primary transition-all"
+                                >
+                                  <Edit size={13} />
+                                </button>
+                                <button 
+                                  onClick={() => handleDeleteRoom(room.id)} 
+                                  className="p-1 text-slate-400 hover:text-red-600 transition-all"
+                                >
+                                  <Trash2 size={13} />
+                                </button>
                               </div>
-                             </td>
-                           </tr>
-                         
+                            </td>
+                          </tr>
                         </Fragment>
                       );
                     })}
+                    {blockRooms.length === 0 && (
+                      <tr>
+                        <td colSpan={4} className="text-center py-8 text-slate-400 italic">
+                          No rooms added to this block yet.
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
                 
-                {/* Add Grade footer */}
-                <div className="px-4 py-3 border-t border-slate-100 bg-slate-50/30">
-                  <button 
-                    onClick={() => { setSelectedLevel(selectedLevelForDetail); setSelectedGrade(null); setShowClassModal(true); }}
-                    className="flex items-center gap-1.5 text-[11px] font-bold text-primary hover:underline"
-                  >
-                    <Plus size={12} /> Add room to {selectedBlockForDetail.name}
-                  </button>
-                </div>
+                {/* Add Room footer (Only show if this is not a single independent room) */}
+                {!(selectedBlockForDetail && (selectedBlockForDetail.block_id === null || selectedBlockForDetail.blockId === null || !('block_id' in selectedBlockForDetail))) && (
+                  <div className="px-4 py-3 border-t border-slate-100 bg-slate-50/30">
+                    <button 
+                      onClick={() => { setSelectedRoom(null); setRoomForm({ name: '', capacity: 40 }); setShowRoomModal(true); }}
+                      className="flex items-center gap-1.5 text-[11px] font-bold text-primary hover:underline"
+                    >
+                      <Plus size={12} /> Add room to {selectedBlockForDetail.name}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </>
         ) : (
           <div className="flex-1 flex flex-col items-center justify-center text-slate-300">
             <School size={48} className="mb-4 opacity-10" />
-            <p className="text-sm font-bold text-slate-400">Select a Build/block to view details</p>
+            <p className="text-sm font-bold text-slate-400">Select a Building Block to view details</p>
           </div>
         )}
       </div>
@@ -1810,6 +1984,8 @@ const renderLocationsTree = ({blocks, rooms}) => {
         {showClassModal && <ClassModal />}
         {showCombinationModal && <CombinationModal />}
         {showTVETModal && <TVETModal />}
+        {showBlockModal && <BlockModal />}
+        {showRoomModal && <RoomModal />}
         {showPhaseDetailModal && <PhaseDetailModal />}
         {selectedRow && selectedRow.type === 'exception' && <DayEventModal />}
         
